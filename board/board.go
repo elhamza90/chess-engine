@@ -12,7 +12,7 @@ type Board struct {
 	State boardState
 }
 
-func getCastleRightsFromString(s string) (castleRights, castleRights) {
+func fenCastleRights(s string) (castleRights, castleRights) {
 	log.Printf("Castling Rights: %s", s)
 	var w_castling byte = 0
 	var b_castling byte = 0
@@ -47,7 +47,7 @@ func (b *Board) FromFen(fen string) {
 
 	// Set Castling rights
 	b.State.playersCastleRights = map[Player]castleRights{}
-	b.State.playersCastleRights[WHITE], b.State.playersCastleRights[BLACK] = getCastleRightsFromString(parts[2])
+	b.State.playersCastleRights[WHITE], b.State.playersCastleRights[BLACK] = fenCastleRights(parts[2])
 
 	// Set En Passant Square
 	if parts[3] != "-" {
