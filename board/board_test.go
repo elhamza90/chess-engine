@@ -75,7 +75,7 @@ func TestBoard_FromFen(t *testing.T) {
 			}
 
 			if b.Pieces.Empty != expected.Pieces.Empty {
-				t.Errorf("Error in Empty squares. Expecting %d but got %d", expected.Pieces.Empty, b.Pieces.Empty)
+				t.Errorf("Error in Empty squares. Expecting %b but got %b", expected.Pieces.Empty, b.Pieces.Empty)
 			}
 
 			if b.State.InCheck() != expected.State.inCheck {

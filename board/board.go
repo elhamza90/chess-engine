@@ -1,7 +1,7 @@
 package board
 
 import (
-	"log"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -13,7 +13,7 @@ type Board struct {
 }
 
 func fenCastleRights(s string) (castleRights, castleRights) {
-	log.Printf("Castling Rights: %s", s)
+	//log.Printf("Castling Rights: %s", s)
 	var w_castling byte = 0
 	var b_castling byte = 0
 	for _, b := range s {
@@ -62,8 +62,35 @@ func (b *Board) FromFen(fen string) {
 
 	b.Pieces.Black = map[Piece]uint64{}
 	b.Pieces.White = map[Piece]uint64{}
-
-	b.Pieces.Empty = 0
+	res := uint64(0)
+	//log.Printf("Pieces: %s", parts[0])
+	var (
+		ix       int = 0
+		nbrZeros int = 0
+		inc      int = 0
+	)
+	for i := len(parts[0]) - 1; i >= 0; i-- {
+		c := rune(parts[0][i])
+		if c != '/' {
+			//log.Print(string(c), ix)
+			if unicode.IsDigit(c) {
+				// set "c" ones in the current index going to the left
+				nbrZeros, _ = strconv.Atoi(string(c))
+				for ii := 0; ii < nbrZeros; ii++ {
+					res |= (uint64(1) << (ix + ii))
+				}
+				inc = nbrZeros
+				//log.Printf("There are %d zeros in the %dth index", nbrZeros, ix)
+				//log.Printf("%b", res)
+			} else {
+				inc = 1
+			}
+			// increment only when there is no separator
+			// and by number of empty squares or by one piece
+			ix += inc
+		}
+	}
+	b.Pieces.Empty = res
 }
 
 // InitStandard sets the board
