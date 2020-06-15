@@ -57,6 +57,13 @@ func (b *Board) FromFen(fen string) {
 		}
 		b.State.epSquare = uint64(1) << epIndex
 	}
+
+	// Set Pieces locations in Bitboards
+
+	b.Pieces.Black = map[Piece]uint64{}
+	b.Pieces.White = map[Piece]uint64{}
+
+	b.Pieces.Empty = 0
 }
 
 // InitStandard sets the board

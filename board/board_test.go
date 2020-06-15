@@ -14,6 +14,11 @@ func TestBoard_FromFen(t *testing.T) {
 				},
 				epSquare: 0,
 			},
+			Pieces: bbRepr{
+				White: map[Piece]uint64{},
+				Black: map[Piece]uint64{},
+				Empty: 281474976645120,
+			},
 		},
 		"r2q1bnr/pp1bkppp/2n5/3pp3/2Pp3P/1P3N2/PB1NPPP1/2RQKB1R b K c3 0 8": {
 			State: boardState{
@@ -23,7 +28,12 @@ func TestBoard_FromFen(t *testing.T) {
 					WHITE: CASTLE_KING,
 					BLACK: CASTLE_NONE,
 				},
-				epSquare: 262144,
+				epSquare: uint64(262144),
+			},
+			Pieces: bbRepr{
+				White: map[Piece]uint64{},
+				Black: map[Piece]uint64{},
+				Empty: uint64(7503243165898056130),
 			},
 		},
 		"rnbqk1nr/pppp1ppp/8/4P3/1b6/8/PPP1PPPP/RNBQKBNR w KQkq - 1 3": {
@@ -35,6 +45,11 @@ func TestBoard_FromFen(t *testing.T) {
 					BLACK: CASTLE_KING + CASTLE_QUEEN,
 				},
 				epSquare: 0,
+			},
+			Pieces: bbRepr{
+				White: map[Piece]uint64{},
+				Black: map[Piece]uint64{},
+				Empty: uint64(290763615508566016),
 			},
 		},
 	}
@@ -57,6 +72,10 @@ func TestBoard_FromFen(t *testing.T) {
 
 			if b.State.EpSquare() != expected.State.epSquare {
 				t.Errorf("Error setting en passant square. Expecting %d, got %d", expected.State.epSquare, b.State.EpSquare())
+			}
+
+			if b.Pieces.Empty != expected.Pieces.Empty {
+				t.Errorf("Error in Empty squares. Expecting %d but got %d", expected.Pieces.Empty, b.Pieces.Empty)
 			}
 
 			if b.State.InCheck() != expected.State.inCheck {
