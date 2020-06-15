@@ -12,6 +12,24 @@ type Board struct {
 	State boardState
 }
 
+func getCastleRightsFromString(s string) (castleRights, castleRights) {
+	log.Printf("Castling Rights: %s", s)
+	var w_castling byte = 0
+	var b_castling byte = 0
+	for _, b := range s {
+		if b == 'K' {
+			w_castling += byte(CASTLE_KING)
+		} else if b == 'Q' {
+			w_castling += byte(CASTLE_QUEEN)
+		} else if b == 'k' {
+			b_castling += byte(CASTLE_KING)
+		} else if b == 'q' {
+			b_castling += byte(CASTLE_QUEEN)
+		}
+	}
+	return castleRights(w_castling), castleRights(b_castling)
+}
+
 // FromFen sets the state of the board
 // to the state given by the FEN representation
 func (b *Board) FromFen(fen string) {
@@ -29,22 +47,7 @@ func (b *Board) FromFen(fen string) {
 
 	// Set Castling rights
 	b.State.playersCastleRights = map[Player]castleRights{}
-	var w_castling byte = 0
-	var b_castling byte = 0
-	log.Printf("Castling Rights: %s", parts[2])
-	for _, b := range parts[2] {
-		if b == 'K' {
-			w_castling += byte(CASTLE_KING)
-		} else if b == 'Q' {
-			w_castling += byte(CASTLE_QUEEN)
-		} else if b == 'k' {
-			b_castling += byte(CASTLE_KING)
-		} else if b == 'q' {
-			b_castling += byte(CASTLE_QUEEN)
-		}
-	}
-	b.State.playersCastleRights[WHITE] = castleRights(w_castling)
-	b.State.playersCastleRights[BLACK] = castleRights(b_castling)
+	b.State.playersCastleRights[WHITE], b.State.playersCastleRights[BLACK] = getCastleRightsFromString(parts[2])
 
 	// Set En Passant Square
 	if parts[3] != "-" {
