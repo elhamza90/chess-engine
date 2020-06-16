@@ -1,6 +1,8 @@
 package board
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestBoard_FromFen(t *testing.T) {
 	tests := map[string]Board{
@@ -15,8 +17,22 @@ func TestBoard_FromFen(t *testing.T) {
 				epSquare: 0,
 			},
 			Pieces: bbRepr{
-				White: map[Piece]uint64{},
-				Black: map[Piece]uint64{},
+				White: map[Piece]uint64{
+					'P': uint64(65280),
+					'R': uint64(129),
+					'N': uint64(66),
+					'B': uint64(36),
+					'K': uint64(8),
+					'Q': uint64(16),
+				},
+				Black: map[Piece]uint64{
+					'P': uint64(71776119061217280),
+					'R': uint64(9295429630892703744),
+					'N': uint64(4755801206503243776),
+					'B': uint64(2594073385365405696),
+					'K': uint64(576460752303423488),
+					'Q': uint64(1152921504606846976),
+				},
 				Empty: 281474976645120,
 			},
 		},
@@ -76,6 +92,20 @@ func TestBoard_FromFen(t *testing.T) {
 
 			if b.Pieces.Empty != expected.Pieces.Empty {
 				t.Errorf("Error in Empty squares. Expecting %b but got %b", expected.Pieces.Empty, b.Pieces.Empty)
+			}
+
+			for p, expectedPos := range expected.Pieces.White {
+				resultPos := b.Pieces.White[p]
+				if expectedPos != resultPos {
+					t.Errorf("Error setting White Piece position. Expected %b but got %b", expectedPos, resultPos)
+				}
+			}
+
+			for p, expectedPos := range expected.Pieces.Black {
+				resultPos := b.Pieces.Black[p]
+				if expectedPos != resultPos {
+					t.Errorf("Error setting Black Piece position. Expected %b but got %b", expectedPos, resultPos)
+				}
 			}
 
 			if b.State.InCheck() != expected.State.inCheck {

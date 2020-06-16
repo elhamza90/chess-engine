@@ -84,6 +84,15 @@ func (b *Board) FromFen(fen string) {
 				//log.Printf("%b", res)
 			} else {
 				inc = 1
+				// Check type and color of piece
+				p := Piece(unicode.ToUpper(c))
+				pos := uint64(1) << ix
+				if unicode.IsUpper(c) {
+					b.Pieces.White[p] |= pos
+				} else {
+					b.Pieces.Black[p] |= pos
+				}
+
 			}
 			// increment only when there is no separator
 			// and by number of empty squares or by one piece
