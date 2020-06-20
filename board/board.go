@@ -116,3 +116,7 @@ func (b *Board) FromFen(fen string) {
 func (b Board) InitStandard() {
 	//
 }
+
+func (b Board) String(p Player) (s string) {
+	return s
+}
