@@ -29,6 +29,49 @@ const (
 	KING   Piece = 'K'
 )
 
+func (p Piece) String(ply Player) rune {
+	switch p {
+	case PAWN:
+		if ply == WHITE {
+			return 'P'
+		} else {
+			return 'p'
+		}
+	case KNIGHT:
+		if ply == WHITE {
+			return 'N'
+		} else {
+			return 'n'
+		}
+	case BISHOP:
+		if ply == WHITE {
+			return 'B'
+		} else {
+			return 'b'
+		}
+	case ROOK:
+		if ply == WHITE {
+			return 'R'
+		} else {
+			return 'r'
+		}
+	case QUEEN:
+		if ply == WHITE {
+			return 'Q'
+		} else {
+			return 'q'
+		}
+	case KING:
+		if ply == WHITE {
+			return 'K'
+		} else {
+			return 'k'
+		}
+	default:
+		return 'X'
+	}
+}
+
 // squareToBitBoard takes a square (eg. b2)
 // and returns the index of the square
 // in a flattened board (eg. b2 -> 9)
@@ -47,6 +90,10 @@ func squareToIndex(sq string) (byte, error) {
 	row = row - 1
 	//log.Print(sq, " ", row, byte(row), col)
 	return byte(row)*8 + byte(col), nil
+}
+
+func binaryIndexIsOne(bb uint64, ix byte) bool {
+	return bb&(uint64(1)<<ix) != 0
 }
 
 func fenIsValid(fen string) error {

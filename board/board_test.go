@@ -161,16 +161,16 @@ func TestBoard_String(t *testing.T) {
 				'R': uint64(129),
 				'N': uint64(66),
 				'B': uint64(36),
-				'K': uint64(8),
-				'Q': uint64(16),
+				'K': uint64(16),
+				'Q': uint64(8),
 			},
 			Black: map[Piece]uint64{
 				'P': uint64(71776119061217280),
 				'R': uint64(9295429630892703744),
 				'N': uint64(4755801206503243776),
 				'B': uint64(2594073385365405696),
-				'K': uint64(576460752303423488),
-				'Q': uint64(1152921504606846976),
+				'K': uint64(1152921504606846976),
+				'Q': uint64(576460752303423488),
 			},
 			Empty: 281474976645120,
 		},
@@ -179,7 +179,7 @@ func TestBoard_String(t *testing.T) {
 	expected := `  +---+---+---+---+---+---+---+---+
 8 | r | n | b | q | k | b | n | r |
   +---+---+---+---+---+---+---+---+
-7 | P | P | P | P | P | P | P | P |
+7 | p | p | p | p | p | p | p | p |
   +---+---+---+---+---+---+---+---+
 6 |   |   |   |   |   |   |   |   |
   +---+---+---+---+---+---+---+---+
@@ -189,11 +189,11 @@ func TestBoard_String(t *testing.T) {
   +---+---+---+---+---+---+---+---+
 3 |   |   |   |   |   |   |   |   |
   +---+---+---+---+---+---+---+---+
-2 | p | p | p | p | p | p | p | p |
+2 | P | P | P | P | P | P | P | P |
   +---+---+---+---+---+---+---+---+
 1 | R | N | B | Q | K | B | N | R |
   +---+---+---+---+---+---+---+---+
-    A   B   C   D   E   F   G   H  
+    A   B   C   D   E   F   G   H 
 `
 	if res != expected {
 		t.Errorf("Error Converting board to string (WHITE). Got:\n%s\nExpected:\n%s", res, expected)
@@ -217,7 +217,7 @@ func TestBoard_String(t *testing.T) {
   +---+---+---+---+---+---+---+---+
 8 | r | n | b | k | q | b | n | r |
   +---+---+---+---+---+---+---+---+
-    H   G   F   E   D   C   B   A  
+    H   G   F   E   D   C   B   A 
 `
 	if res != expected {
 		t.Errorf("Error Converting board to string (BLACK). Got:\n%s\nExpected:\n%s", res, expected)
