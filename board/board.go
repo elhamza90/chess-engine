@@ -42,28 +42,28 @@ func fenToBitboardPieces(fen string) (map[Piece]uint64, map[Piece]uint64) {
 		pos   uint64 = 0
 		piece Piece
 	)
-	for i := len(fen) - 1; i >= 0; i-- {
-		c := rune(fen[i])
-		if c != '/' {
-			//log.Print(string(c), ix)
-			if unicode.IsDigit(c) {
+	rows := strings.Split(fen, "/")
+	for r := len(rows) - 1; r >= 0; r-- {
+		row := rows[r]
+		//log.Print(row)
+		for c := 0; c < len(row); c++ {
+			char := rune(row[c])
+			if unicode.IsDigit(char) {
 				// Get number of empty squares
-				inc, _ = strconv.Atoi(string(c))
-				//log.Printf("There are %d zeros in the %dth index", nbrZeros, ix)
+				inc, _ = strconv.Atoi(string(char))
+				//log.Printf("There are %d zeros in the %dth index", inc, ix)
 			} else {
 				inc = 1
 				// Check type and color of piece
-				piece = Piece(unicode.ToUpper(c))
+				piece = Piece(unicode.ToUpper(char))
 				pos = uint64(1) << ix
-				if unicode.IsUpper(c) {
+				if unicode.IsUpper(char) {
 					whiteMap[piece] |= pos
 				} else {
 					blackMap[piece] |= pos
 				}
 
 			}
-			// increment only when there is no separator
-			// and by number of empty squares or by one piece
 			ix += inc
 		}
 	}
