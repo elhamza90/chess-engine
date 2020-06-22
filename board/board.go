@@ -144,7 +144,7 @@ func (b Board) String(ply Player) (res string) {
 				log.Print("Error finding Bitboard Index from Square string")
 				return ""
 			}
-			log.Printf("%c%c (%s) => %d", c, r, sq, bbIndex)
+			//log.Printf("%c%c (%s) => %d", c, r, sq, bbIndex)
 			if binaryIndexIsOne(b.Pieces.Empty, bbIndex) {
 				res += fmt.Sprintf("|   ")
 			} else {
