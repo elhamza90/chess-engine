@@ -1,12 +1,6 @@
 package board
 
-type castleRights byte
-
-const (
-	CASTLE_KING  castleRights = 2
-	CASTLE_QUEEN castleRights = 1
-	CASTLE_NONE  castleRights = 0
-)
+/************************************************************/
 
 type boardState struct {
 	currPlayer Player
@@ -33,3 +27,22 @@ func (bs boardState) PlayersCastleRights() map[Player]castleRights {
 func (bs boardState) EpSquare() uint64 {
 	return bs.epSquare
 }
+
+/******************** Definitions ****************************/
+
+// Define castle rights codes
+type castleRights byte
+
+const (
+	CASTLE_KING  castleRights = 2
+	CASTLE_QUEEN castleRights = 1
+	CASTLE_NONE  castleRights = 0
+)
+
+// Define Players
+type Player byte
+
+const (
+	WHITE Player = 'W'
+	BLACK Player = 'B'
+)
