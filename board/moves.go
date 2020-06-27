@@ -34,12 +34,28 @@ func (b Board) GenLegalMoves() (moves MoveMap) {
 	oppPlayerAttackSquares |= b.Pieces.pawnsCaptureMoves(oppPlayer)
 
 	// Set inCheck if King is in check
-	b.State.inCheck = false
+	kingPosBitboard := b.Pieces.Positions[b.State.currPlayer][KING]
+	var kingSquare Square
+	for sq := byte(0); sq < byte(64); sq++ {
+		if binaryIndexIsOne(kingPosBitboard, sq) {
+			kingSquare = Square(sq)
+			break
+		}
+	}
+	b.State.inCheck = squareAttacked(kingSquare, oppPlayerAttackSquares)
 
 	// Now Compute Legal Moves:
 	//  - Case: King is in check / double check
 	//  - Case: King can not move to squares attacked by other pieces
 	//  - Case: Absolute pins (piece can't move if pinned by enemy piece)
+	// TODO
+
+	// Check if Casling is possible
+	// TODO
 
 	return moves
+}
+
+func squareAttacked(sq Square, attackBitboard uint64) bool {
+	return binaryIndexIsOne(attackBitboard, byte(sq))
 }
