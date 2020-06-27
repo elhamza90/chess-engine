@@ -2,7 +2,7 @@ package board
 
 import "regexp"
 
-/******************** Definitions ****************************/
+/******************** Definition Piece ****************************/
 
 // Define Pieces
 type Piece byte
@@ -59,6 +59,7 @@ func (p Piece) String(ply Player) rune {
 	}
 }
 
+/******************** Definition Square ****************************/
 // Define Square Indices in a bitboard A1 = 0, B1 = 1, ... H8 = 63
 type Square byte
 
@@ -132,9 +133,9 @@ const (
 // squareToBitBoard takes a square (eg. b2)
 // and returns the index of the square
 // in a flattened board (eg. b2 -> 9)
-func squareToIndex(sq string) (byte, error) {
-	if match, err := regexp.MatchString("^[a-h]{1}[1-9]{1}$", sq); (err != nil) || !match {
-		return 0, err
+func (sq *Square) fromString(sqStr string) error {
+	if match, err := regexp.MatchString("^[a-h]{1}[1-9]{1}$", sqStr); (err != nil) || !match {
+		return err
 	}
 	m := map[string]Square{
 		"a1": A1, "a2": A2, "a3": A3, "a4": A4, "a5": A5, "a6": A6, "a7": A7, "a8": A8,
@@ -146,5 +147,15 @@ func squareToIndex(sq string) (byte, error) {
 		"g1": G1, "g2": G2, "g3": G3, "g4": G4, "g5": G5, "g6": G6, "g7": G7, "g8": G8,
 		"h1": H1, "h2": H2, "h3": H3, "h4": H4, "h5": H5, "h6": H6, "h7": H7, "h8": H8,
 	}
-	return byte(m[sq]), nil
+	*sq = m[sqStr]
+	return nil
+}
+
+/******************** Definition Bitboard ****************************/
+
+type Bitboard uint64
+
+// isSet returns true if the given square (index) is set to one
+func (bb Bitboard) isSet(sq Square) bool {
+	return bb&(Bitboard(1)<<sq) != 0
 }

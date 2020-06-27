@@ -9,7 +9,7 @@ type boardState struct {
 
 	playersCastleRights map[Player]castleRights
 
-	epSquare uint64 // en passant square in a 64bit bitboard
+	epSquare Bitboard // en passant square in a 64bit bitboard
 }
 
 func (bs boardState) CurrPlayer() Player {
@@ -33,7 +33,7 @@ func (bs boardState) PlayersCastleRights() map[Player]castleRights {
 	return bs.playersCastleRights
 }
 
-func (bs boardState) EpSquare() uint64 {
+func (bs boardState) EpSquare() Bitboard {
 	return bs.epSquare
 }
 

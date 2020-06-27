@@ -27,7 +27,7 @@ func (b Board) String(ply Player) (res string) {
 		cols = []rune{'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'}
 	}
 	var sq string
-	var bbIndex byte
+	var bbIndex Square
 	var err error
 	var pc Piece
 	for _, r := range rows {
@@ -35,20 +35,20 @@ func (b Board) String(ply Player) (res string) {
 		res += fmt.Sprintf("%c ", r)
 		for _, c := range cols {
 			sq = string(unicode.ToLower(c)) + string(r)
-			bbIndex, err = squareToIndex(sq)
+			err = bbIndex.fromString(sq)
 			if err != nil {
 				log.Print("Error finding Bitboard Index from Square string")
 				return ""
 			}
 			//log.Printf("%c%c (%s) => %d", c, r, sq, bbIndex)
-			if binaryIndexIsOne(b.Pieces.Empty, bbIndex) {
+			if b.Pieces.Empty.isSet(bbIndex) {
 				res += fmt.Sprintf("|   ")
 			} else {
 				for _, pc = range []Piece{PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} {
-					if binaryIndexIsOne(b.Pieces.Positions[WHITE][pc], bbIndex) {
+					if b.Pieces.Positions[WHITE][pc].isSet(bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(WHITE))
 						break
-					} else if binaryIndexIsOne(b.Pieces.Positions[BLACK][pc], bbIndex) {
+					} else if b.Pieces.Positions[BLACK][pc].isSet(bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(BLACK))
 						break
 					}
@@ -89,19 +89,20 @@ func (b *Board) FromFen(fen string) {
 
 	// Set En Passant Square
 	if parts[3] != "-" {
-		epIndex, err := squareToIndex(parts[3])
+		var epIndex Square
+		err := epIndex.fromString(parts[3])
 		if err != nil {
 			return
 		}
-		b.State.epSquare = uint64(1) << epIndex
+		b.State.epSquare = Bitboard(1) << epIndex
 	}
 
 	// Set Pieces locations in Bitboards
-	b.Pieces.Positions = make(map[Player]map[Piece]uint64)
+	b.Pieces.Positions = make(map[Player]map[Piece]Bitboard)
 	b.Pieces.Positions[WHITE], b.Pieces.Positions[BLACK] = fenToBitboardPieces(parts[0])
 
 	// Calculate Empty Squares from pieces locations
-	var occupied uint64 = 0
+	var occupied Bitboard = 0
 	for _, pos := range b.Pieces.Positions[BLACK] {
 		occupied += pos
 	}

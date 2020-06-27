@@ -13,12 +13,12 @@ func TestUtil_squareToIndex(t *testing.T) {
 		"d5": 35,
 		"h8": 63,
 	}
-
-	for sq, ix := range tests {
+	var res Square
+	for sqStr, ix := range tests {
 		t.Run("", func(t *testing.T) {
-			res, err := squareToIndex(sq)
-			if res != ix || err != nil {
-				t.Errorf("Expecting %d but Got %d for %s", ix, res, sq)
+			err := res.fromString(sqStr)
+			if byte(res) != ix || err != nil {
+				t.Errorf("Expecting %d but Got %d for %s", ix, res, sqStr)
 			}
 		})
 	}

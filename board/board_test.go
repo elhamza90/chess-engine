@@ -17,22 +17,22 @@ func TestBoard_String(t *testing.T) {
 			epSquare: 0,
 		},
 		Pieces: piecePos{
-			Positions: map[Player]map[Piece]uint64{
-				WHITE: map[Piece]uint64{
-					'P': uint64(65280),
-					'R': uint64(129),
-					'N': uint64(66),
-					'B': uint64(36),
-					'K': uint64(16),
-					'Q': uint64(8),
+			Positions: map[Player]map[Piece]Bitboard{
+				WHITE: map[Piece]Bitboard{
+					'P': Bitboard(65280),
+					'R': Bitboard(129),
+					'N': Bitboard(66),
+					'B': Bitboard(36),
+					'K': Bitboard(16),
+					'Q': Bitboard(8),
 				},
-				BLACK: map[Piece]uint64{
-					'P': uint64(71776119061217280),
-					'R': uint64(9295429630892703744),
-					'N': uint64(4755801206503243776),
-					'B': uint64(2594073385365405696),
-					'K': uint64(1152921504606846976),
-					'Q': uint64(576460752303423488),
+				BLACK: map[Piece]Bitboard{
+					'P': Bitboard(71776119061217280),
+					'R': Bitboard(9295429630892703744),
+					'N': Bitboard(4755801206503243776),
+					'B': Bitboard(2594073385365405696),
+					'K': Bitboard(1152921504606846976),
+					'Q': Bitboard(576460752303423488),
 				},
 			},
 			Empty: 281474976645120,
@@ -100,22 +100,22 @@ func TestFen_BoardFromFen(t *testing.T) {
 				epSquare: 0,
 			},
 			Pieces: piecePos{
-				Positions: map[Player]map[Piece]uint64{
-					WHITE: map[Piece]uint64{
-						'P': uint64(65280),
-						'R': uint64(129),
-						'N': uint64(66),
-						'B': uint64(36),
-						'K': uint64(16),
-						'Q': uint64(8),
+				Positions: map[Player]map[Piece]Bitboard{
+					WHITE: map[Piece]Bitboard{
+						'P': Bitboard(65280),
+						'R': Bitboard(129),
+						'N': Bitboard(66),
+						'B': Bitboard(36),
+						'K': Bitboard(16),
+						'Q': Bitboard(8),
 					},
-					BLACK: map[Piece]uint64{
-						'P': uint64(71776119061217280),
-						'R': uint64(9295429630892703744),
-						'N': uint64(4755801206503243776),
-						'B': uint64(2594073385365405696),
-						'K': uint64(1152921504606846976),
-						'Q': uint64(576460752303423488),
+					BLACK: map[Piece]Bitboard{
+						'P': Bitboard(71776119061217280),
+						'R': Bitboard(9295429630892703744),
+						'N': Bitboard(4755801206503243776),
+						'B': Bitboard(2594073385365405696),
+						'K': Bitboard(1152921504606846976),
+						'Q': Bitboard(576460752303423488),
 					},
 				},
 				Empty: 281474976645120,
@@ -129,28 +129,28 @@ func TestFen_BoardFromFen(t *testing.T) {
 					WHITE: CASTLE_KING,
 					BLACK: CASTLE_NONE,
 				},
-				epSquare: uint64(262144),
+				epSquare: Bitboard(262144),
 			},
 			Pieces: piecePos{
-				Positions: map[Player]map[Piece]uint64{
-					WHITE: map[Piece]uint64{
-						'P': uint64(2214752512),
-						'R': uint64(132),
-						'N': uint64(2099200),
-						'B': uint64(544),
-						'K': uint64(16),
-						'Q': uint64(8),
+				Positions: map[Player]map[Piece]Bitboard{
+					WHITE: map[Piece]Bitboard{
+						'P': Bitboard(2214752512),
+						'R': Bitboard(132),
+						'N': Bitboard(2099200),
+						'B': Bitboard(544),
+						'K': Bitboard(16),
+						'Q': Bitboard(8),
 					},
-					BLACK: map[Piece]uint64{
-						'P': uint64(63894922926751744),
-						'R': uint64(9295429630892703744),
-						'N': uint64(4611690416473899008),
-						'B': uint64(2308094809027379200),
-						'K': uint64(4503599627370496),
-						'Q': uint64(576460752303423488),
+					BLACK: map[Piece]Bitboard{
+						'P': Bitboard(63894922926751744),
+						'R': Bitboard(9295429630892703744),
+						'N': Bitboard(4611690416473899008),
+						'B': Bitboard(2308094809027379200),
+						'K': Bitboard(4503599627370496),
+						'Q': Bitboard(576460752303423488),
 					},
 				},
-				Empty: uint64(1586669940241171523),
+				Empty: Bitboard(1586669940241171523),
 			},
 		},
 		"rnbqk1nr/pppp1ppp/8/4P3/1b6/8/PPP1PPPP/RNBQKBNR w KQkq - 1 3": {
@@ -164,25 +164,25 @@ func TestFen_BoardFromFen(t *testing.T) {
 				epSquare: 0,
 			},
 			Pieces: piecePos{
-				Positions: map[Player]map[Piece]uint64{
-					WHITE: map[Piece]uint64{
-						'P': uint64(68719539968),
-						'R': uint64(129),
-						'N': uint64(66),
-						'B': uint64(36),
-						'K': uint64(16),
-						'Q': uint64(8),
+				Positions: map[Player]map[Piece]Bitboard{
+					WHITE: map[Piece]Bitboard{
+						'P': Bitboard(68719539968),
+						'R': Bitboard(129),
+						'N': Bitboard(66),
+						'B': Bitboard(36),
+						'K': Bitboard(16),
+						'Q': Bitboard(8),
 					},
-					BLACK: map[Piece]uint64{
-						'P': uint64(67272519433846784),
-						'R': uint64(9295429630892703744),
-						'N': uint64(4755801206503243776),
-						'B': uint64(288230376185266176),
-						'K': uint64(1152921504606846976),
-						'Q': uint64(576460752303423488),
+					BLACK: map[Piece]Bitboard{
+						'P': Bitboard(67272519433846784),
+						'R': Bitboard(9295429630892703744),
+						'N': Bitboard(4755801206503243776),
+						'B': Bitboard(288230376185266176),
+						'K': Bitboard(1152921504606846976),
+						'Q': Bitboard(576460752303423488),
 					},
 				},
-				Empty: uint64(2310628015064680448),
+				Empty: Bitboard(2310628015064680448),
 			},
 		},
 	}

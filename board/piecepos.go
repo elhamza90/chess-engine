@@ -3,12 +3,8 @@ package board
 /************************************************************/
 
 type piecePos struct {
-	Positions map[Player]map[Piece]uint64
-	Empty     uint64
-}
-
-func binaryIndexIsOne(bb uint64, ix byte) bool {
-	return bb&(uint64(1)<<ix) != 0
+	Positions map[Player]map[Piece]Bitboard
+	Empty     Bitboard
 }
 
 /******************** Move Generation ****************************/
@@ -16,7 +12,7 @@ func binaryIndexIsOne(bb uint64, ix byte) bool {
 // kingPseudoLegalMoves returns a bitboard containing all possible
 // moves for the King considering current/opponent pieces positions.
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) kingPseudoLegalMoves(ply Player) (res uint64) {
+func (bbs piecePos) kingPseudoLegalMoves(ply Player) (res Bitboard) {
 	// TODO
 	return res
 }
@@ -24,7 +20,7 @@ func (bbs piecePos) kingPseudoLegalMoves(ply Player) (res uint64) {
 // knightsPseudoLegalMoves returns a bitboard containing all possible
 // moves for the King considering current/opponent pieces positions.
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) knightsPseudoLegalMoves(ply Player) (res uint64) {
+func (bbs piecePos) knightsPseudoLegalMoves(ply Player) (res Bitboard) {
 	// TODO
 	return res
 }
@@ -32,7 +28,7 @@ func (bbs piecePos) knightsPseudoLegalMoves(ply Player) (res uint64) {
 // rooksPseudoLegalMoves returns a bitboard containing all possible
 // moves for the King considering current/opponent pieces positions.
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) rooksPseudoLegalMoves(ply Player) (res uint64) {
+func (bbs piecePos) rooksPseudoLegalMoves(ply Player) (res Bitboard) {
 	// TODO
 	return res
 }
@@ -40,7 +36,7 @@ func (bbs piecePos) rooksPseudoLegalMoves(ply Player) (res uint64) {
 // bishopsPseudoLegalMoves returns a bitboard containing all possible
 // moves for the King considering current/opponent pieces positions.
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) bishopsPseudoLegalMoves(ply Player) (res uint64) {
+func (bbs piecePos) bishopsPseudoLegalMoves(ply Player) (res Bitboard) {
 	// TODO
 	return res
 }
@@ -48,7 +44,7 @@ func (bbs piecePos) bishopsPseudoLegalMoves(ply Player) (res uint64) {
 // queenPseudoLegalMoves returns a bitboard containing all possible
 // moves for the Queen considering current/opponent pieces positions.
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) queenPseudoLegalMoves(ply Player) (res uint64) {
+func (bbs piecePos) queenPseudoLegalMoves(ply Player) (res Bitboard) {
 	// TODO
 	return res
 }
@@ -59,7 +55,7 @@ func (bbs piecePos) queenPseudoLegalMoves(ply Player) (res uint64) {
 //   - side captures
 //   - en-passant captures
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) pawnsCaptureMoves(ply Player) (res uint64) {
+func (bbs piecePos) pawnsCaptureMoves(ply Player) (res Bitboard) {
 	// TODO
 	return res
 }
@@ -73,7 +69,7 @@ func (bbs piecePos) pawnsCaptureMoves(ply Player) (res uint64) {
 //		- side captures
 //		- en-passant captures
 // Pseudo-Legal moves don't consider pins and attacks on the King.
-func (bbs piecePos) pawnsPseudoLegalMoves(ply Player) (res uint64) {
+func (bbs piecePos) pawnsPseudoLegalMoves(ply Player) (res Bitboard) {
 	// First get the capture moves
 	res |= bbs.pawnsCaptureMoves(ply)
 	// Next get push moves

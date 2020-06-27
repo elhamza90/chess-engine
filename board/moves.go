@@ -1,13 +1,13 @@
 package board
 
 // Type to gather possible moves of a player's pieces
-type MoveMap map[Piece]uint64
+type MoveMap map[Piece]Bitboard
 
 // GenMoves returns a list of all legal moves
 // for current player in current position
 func (b Board) GenLegalMoves() (moves MoveMap) {
 	var oppPlayer Player = b.State.oppPlayer() // Opponent Player
-	var oppPlayerAttackSquares uint64 = 0
+	var oppPlayerAttackSquares Bitboard = 0
 	moves = make(MoveMap)
 	// add moves from King
 	moves[KING] = b.Pieces.kingPseudoLegalMoves(b.State.currPlayer)
@@ -36,8 +36,8 @@ func (b Board) GenLegalMoves() (moves MoveMap) {
 	// Set inCheck if King is in check
 	kingPosBitboard := b.Pieces.Positions[b.State.currPlayer][KING]
 	var kingSquare Square
-	for sq := byte(0); sq < byte(64); sq++ {
-		if binaryIndexIsOne(kingPosBitboard, sq) {
+	for sq := A1; sq < H8; sq++ {
+		if kingPosBitboard.isSet(sq) {
 			kingSquare = Square(sq)
 			break
 		}
@@ -56,6 +56,6 @@ func (b Board) GenLegalMoves() (moves MoveMap) {
 	return moves
 }
 
-func squareAttacked(sq Square, attackBitboard uint64) bool {
-	return binaryIndexIsOne(attackBitboard, byte(sq))
+func squareAttacked(sq Square, attackBitboard Bitboard) bool {
+	return attackBitboard.isSet(sq)
 }

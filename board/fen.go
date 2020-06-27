@@ -73,14 +73,14 @@ func fenCastleRights(s string) (castleRights, castleRights) {
 
 // fenToBitboardPieces returns bitboards for White and Black
 // respectively given the Fen Pieces representation
-func fenToBitboardPieces(fen string) (map[Piece]uint64, map[Piece]uint64) {
-	blackMap := map[Piece]uint64{}
-	whiteMap := map[Piece]uint64{}
+func fenToBitboardPieces(fen string) (map[Piece]Bitboard, map[Piece]Bitboard) {
+	blackMap := map[Piece]Bitboard{}
+	whiteMap := map[Piece]Bitboard{}
 	//log.Printf("Pieces: %s", parts[0])
 	var (
-		ix    int    = 0
-		inc   int    = 0
-		pos   uint64 = 0
+		ix    int      = 0
+		inc   int      = 0
+		pos   Bitboard = 0
 		piece Piece
 	)
 	rows := strings.Split(fen, "/")
@@ -97,7 +97,7 @@ func fenToBitboardPieces(fen string) (map[Piece]uint64, map[Piece]uint64) {
 				inc = 1
 				// Check type and color of piece
 				piece = Piece(unicode.ToUpper(char))
-				pos = uint64(1) << ix
+				pos = Bitboard(1) << ix
 				if unicode.IsUpper(char) {
 					whiteMap[piece] |= pos
 				} else {
