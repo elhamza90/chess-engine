@@ -3,15 +3,18 @@ package board
 import (
 	"fmt"
 	"log"
+	"strings"
 	"unicode"
 )
 
 type Board struct {
-	Pieces bbRepr
+	Pieces piecePos
 
 	State boardState
 }
 
+// String returns a string representation of the board
+// that can be printed in the terminal
 func (b Board) String(ply Player) (res string) {
 	sep := "  +---+---+---+---+---+---+---+---+\n"
 	var rows []rune
@@ -42,10 +45,10 @@ func (b Board) String(ply Player) (res string) {
 				res += fmt.Sprintf("|   ")
 			} else {
 				for _, pc = range []Piece{PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} {
-					if binaryIndexIsOne(b.Pieces.White[pc], bbIndex) {
+					if binaryIndexIsOne(b.Pieces.Positions[WHITE][pc], bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(WHITE))
 						break
-					} else if binaryIndexIsOne(b.Pieces.Black[pc], bbIndex) {
+					} else if binaryIndexIsOne(b.Pieces.Positions[BLACK][pc], bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(BLACK))
 						break
 					}
@@ -63,4 +66,48 @@ func (b Board) String(ply Player) (res string) {
 	}
 	res += "\n"
 	return res
+}
+
+// FromFen sets the state of the board and piece positions
+// to the state and positions given by the FEN representation
+func (b *Board) FromFen(fen string) {
+	if err := fenIsValid(fen); err != nil {
+		return
+	}
+	parts := strings.Split(fen, " ")
+
+	// Set Current Player
+	if len(parts[1]) == 1 {
+		upper := unicode.ToUpper(rune(parts[1][0]))
+		//log.Print(Player(upper))
+		b.State.currPlayer = Player(upper)
+	}
+
+	// Set Castling rights
+	b.State.playersCastleRights = map[Player]castleRights{}
+	b.State.playersCastleRights[WHITE], b.State.playersCastleRights[BLACK] = fenCastleRights(parts[2])
+
+	// Set En Passant Square
+	if parts[3] != "-" {
+		epIndex, err := squareToIndex(parts[3])
+		if err != nil {
+			return
+		}
+		b.State.epSquare = uint64(1) << epIndex
+	}
+
+	// Set Pieces locations in Bitboards
+	b.Pieces.Positions = make(map[Player]map[Piece]uint64)
+	b.Pieces.Positions[WHITE], b.Pieces.Positions[BLACK] = fenToBitboardPieces(parts[0])
+
+	// Calculate Empty Squares from pieces locations
+	var occupied uint64 = 0
+	for _, pos := range b.Pieces.Positions[BLACK] {
+		occupied += pos
+	}
+	for _, pos := range b.Pieces.Positions[WHITE] {
+		occupied += pos
+	}
+	b.Pieces.Empty = ^occupied
+
 }

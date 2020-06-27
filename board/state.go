@@ -16,6 +16,15 @@ func (bs boardState) CurrPlayer() Player {
 	return bs.currPlayer
 }
 
+// oppPlayer return the opponent of the current Player
+func (bs boardState) oppPlayer() Player {
+	if bs.currPlayer == WHITE {
+		return BLACK
+	} else {
+		return WHITE
+	}
+}
+
 func (bs boardState) InCheck() bool {
 	return bs.inCheck
 }

@@ -1,5 +1,8 @@
 package board
 
+// fen.go contains util functions to set the state
+// of the board from a fen string
+
 import (
 	"errors"
 	"fmt"
@@ -8,49 +11,6 @@ import (
 	"strings"
 	"unicode"
 )
-
-// FromFen sets the state of the board and piece positions
-// to the state and positions given by the FEN representation
-func (b *Board) FromFen(fen string) {
-	if err := fenIsValid(fen); err != nil {
-		return
-	}
-	parts := strings.Split(fen, " ")
-
-	// Set Current Player
-	if len(parts[1]) == 1 {
-		upper := unicode.ToUpper(rune(parts[1][0]))
-		//log.Print(Player(upper))
-		b.State.currPlayer = Player(upper)
-	}
-
-	// Set Castling rights
-	b.State.playersCastleRights = map[Player]castleRights{}
-	b.State.playersCastleRights[WHITE], b.State.playersCastleRights[BLACK] = fenCastleRights(parts[2])
-
-	// Set En Passant Square
-	if parts[3] != "-" {
-		epIndex, err := squareToIndex(parts[3])
-		if err != nil {
-			return
-		}
-		b.State.epSquare = uint64(1) << epIndex
-	}
-
-	// Set Pieces locations in Bitboards
-	b.Pieces.White, b.Pieces.Black = fenToBitboardPieces(parts[0])
-
-	// Calculate Empty Squares from pieces locations
-	var occupied uint64 = 0
-	for _, pos := range b.Pieces.Black {
-		occupied += pos
-	}
-	for _, pos := range b.Pieces.White {
-		occupied += pos
-	}
-	b.Pieces.Empty = ^occupied
-
-}
 
 // fenIsValid returns an error if the given Fen string is invalid
 func fenIsValid(fen string) error {

@@ -2,18 +2,6 @@ package board
 
 import "regexp"
 
-/************************************************************/
-
-type bbRepr struct {
-	White map[Piece]uint64
-	Black map[Piece]uint64
-	Empty uint64
-}
-
-func binaryIndexIsOne(bb uint64, ix byte) bool {
-	return bb&(uint64(1)<<ix) != 0
-}
-
 /******************** Definitions ****************************/
 
 // Define Pieces
