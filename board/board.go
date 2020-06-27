@@ -41,14 +41,14 @@ func (b Board) String(ply Player) (res string) {
 				return ""
 			}
 			//log.Printf("%c%c (%s) => %d", c, r, sq, bbIndex)
-			if b.Pieces.Empty.isSet(bbIndex) {
+			if b.Pieces.Empty.IsSet(bbIndex) {
 				res += fmt.Sprintf("|   ")
 			} else {
 				for _, pc = range []Piece{PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} {
-					if b.Pieces.Positions[WHITE][pc].isSet(bbIndex) {
+					if b.Pieces.Positions[WHITE][pc].IsSet(bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(WHITE))
 						break
-					} else if b.Pieces.Positions[BLACK][pc].isSet(bbIndex) {
+					} else if b.Pieces.Positions[BLACK][pc].IsSet(bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(BLACK))
 						break
 					}

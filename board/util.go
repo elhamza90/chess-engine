@@ -151,11 +151,30 @@ func (sq *Square) fromString(sqStr string) error {
 	return nil
 }
 
+func (sq *Square) String() string {
+	m := map[Square]string{
+		A1: "a1", A2: "A2", A3: "A3", A4: "A4", A5: "A5", A6: "A6", A7: "A7", A8: "A8",
+		B1: "b1", B2: "B2", B3: "B3", B4: "B4", B5: "B5", B6: "B6", B7: "B7", B8: "B8",
+		C1: "c1", C2: "C2", C3: "C3", C4: "C4", C5: "C5", C6: "C6", C7: "C7", C8: "C8",
+		D1: "d1", D2: "D2", D3: "D3", D4: "D4", D5: "D5", D6: "D6", D7: "D7", D8: "D8",
+		E1: "e1", E2: "E2", E3: "E3", E4: "E4", E5: "E5", E6: "E6", E7: "E7", E8: "E8",
+		F1: "f1", F2: "f2", F3: "F3", F4: "F4", F5: "F5", F6: "F6", F7: "F7", F8: "F8",
+		G1: "g1", G2: "g2", G3: "G3", G4: "G4", G5: "G5", G6: "G6", G7: "G7", G8: "G8",
+		H1: "h1", H2: "h2", H3: "H3", H4: "H4", H5: "H5", H6: "H6", H7: "H7", H8: "H8",
+	}
+	return m[*sq]
+}
+
 /******************** Definition Bitboard ****************************/
 
 type Bitboard uint64
 
 // isSet returns true if the given square (index) is set to one
-func (bb Bitboard) isSet(sq Square) bool {
+func (bb Bitboard) IsSet(sq Square) bool {
 	return bb&(Bitboard(1)<<sq) != 0
+}
+
+// Set sets the given square to one
+func (bb *Bitboard) Set(sq Square) {
+	*bb |= Bitboard(1) << sq
 }

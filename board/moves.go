@@ -37,7 +37,7 @@ func (b Board) GenLegalMoves() (moves MoveMap) {
 	kingPosBitboard := b.Pieces.Positions[b.State.currPlayer][KING]
 	var kingSquare Square
 	for sq := A1; sq < H8; sq++ {
-		if kingPosBitboard.isSet(sq) {
+		if kingPosBitboard.IsSet(sq) {
 			kingSquare = Square(sq)
 			break
 		}
@@ -57,5 +57,5 @@ func (b Board) GenLegalMoves() (moves MoveMap) {
 }
 
 func squareAttacked(sq Square, attackBitboard Bitboard) bool {
-	return attackBitboard.isSet(sq)
+	return attackBitboard.IsSet(sq)
 }
