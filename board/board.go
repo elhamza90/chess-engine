@@ -102,13 +102,16 @@ func (b *Board) FromFen(fen string) {
 	b.Pieces.Positions[WHITE], b.Pieces.Positions[BLACK] = fenToBitboardPieces(parts[0])
 
 	// Calculate Empty Squares from pieces locations
-	var occupied Bitboard = 0
-	for _, pos := range b.Pieces.Positions[BLACK] {
-		occupied += pos
-	}
-	for _, pos := range b.Pieces.Positions[WHITE] {
-		occupied += pos
-	}
+	occupied := b.PlayerPieces(WHITE) | b.PlayerPieces(BLACK)
 	b.Pieces.Empty = ^occupied
 
+}
+
+// Color Pieces returns a Bitboard containing all pieces for one color
+func (b Board) PlayerPieces(ply Player) Bitboard {
+	var bb Bitboard = 0
+	for _, pos := range b.Pieces.Positions[ply] {
+		bb += pos
+	}
+	return bb
 }
