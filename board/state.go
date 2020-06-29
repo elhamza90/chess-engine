@@ -5,7 +5,7 @@ package board
 type boardState struct {
 	currPlayer Player
 
-	inCheck bool
+	inCheck bool // King is in check
 
 	playersCastleRights map[Player]castleRights
 
