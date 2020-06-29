@@ -225,9 +225,6 @@ func TestFen_BoardFromFen(t *testing.T) {
 				}
 			}
 
-			if b.State.InCheck() != expected.State.inCheck {
-				t.Errorf("Error setting Incheck. Expecting %t, got %t", expected.State.inCheck, b.State.InCheck())
-			}
 		})
 	}
 }
