@@ -1,6 +1,8 @@
 package board
 
-import "regexp"
+import (
+	"regexp"
+)
 
 /******************** Definition Piece ****************************/
 
@@ -177,4 +179,11 @@ func (bb Bitboard) IsSet(sq Square) bool {
 // Set sets the given square to one
 func (bb *Bitboard) Set(sq Square) {
 	*bb |= Bitboard(1) << sq
+}
+
+// FromString constructs a Bitboard from a String of a binary number
+func (bb *Bitboard) FromSquares(squares []Square) {
+	for _, sq := range squares {
+		bb.Set(sq)
+	}
 }
