@@ -1,37 +1,32 @@
 package board
 
-// Type to gather possible moves of a player's pieces
-type MoveMap map[Piece]Bitboard
+// Map representing the Attacking Squares of each piece in it's current position
+type AttackMap map[Piece]Bitboard
+
+func (b Board) PlayerPseudoLegalMoves(ply Player) (moves AttackMap) {
+	moves = make(AttackMap)
+	moves[PAWN] = b.Pieces.pawnsPseudoLegalMoves(b.State.currPlayer)
+	moves[KNIGHT] = b.Pieces.knightsPseudoLegalMoves(b.State.currPlayer)
+	moves[BISHOP] = b.Pieces.bishopsPseudoLegalMoves(b.State.currPlayer)
+	moves[ROOK] = b.Pieces.rooksPseudoLegalMoves(b.State.currPlayer)
+	moves[QUEEN] = b.Pieces.queenPseudoLegalMoves(b.State.currPlayer)
+	moves[KING] = b.Pieces.kingPseudoLegalMoves(b.State.currPlayer)
+	return moves
+}
 
 // GenMoves returns a list of all legal moves
 // for current player in current position
-func (b Board) GenLegalMoves() (moves MoveMap) {
+func (b Board) GenLegalMoves() (moves AttackMap) {
 	var oppPlayer Player = b.State.oppPlayer() // Opponent Player
 	var oppPlayerAttackSquares Bitboard = 0
-	moves = make(MoveMap)
-	// add moves from King
-	moves[KING] = b.Pieces.kingPseudoLegalMoves(b.State.currPlayer)
-	oppPlayerAttackSquares |= b.Pieces.kingPseudoLegalMoves(oppPlayer)
 
-	// add moves from Knights
-	moves[KNIGHT] = b.Pieces.knightsPseudoLegalMoves(b.State.currPlayer)
-	oppPlayerAttackSquares |= b.Pieces.knightsPseudoLegalMoves(oppPlayer)
+	// Get Pseudo-legal moves of current player
+	moves = b.PlayerPseudoLegalMoves(b.State.CurrPlayer())
 
-	// add moves from Rooks
-	moves[ROOK] = b.Pieces.rooksPseudoLegalMoves(b.State.currPlayer)
-	oppPlayerAttackSquares |= b.Pieces.rooksPseudoLegalMoves(oppPlayer)
-
-	// add moves from Bishops
-	moves[BISHOP] = b.Pieces.bishopsPseudoLegalMoves(b.State.currPlayer)
-	oppPlayerAttackSquares |= b.Pieces.bishopsPseudoLegalMoves(oppPlayer)
-
-	// add moves from Queen
-	moves[QUEEN] = b.Pieces.queenPseudoLegalMoves(b.State.currPlayer)
-	oppPlayerAttackSquares |= b.Pieces.queenPseudoLegalMoves(oppPlayer)
-
-	// add moves from Pawns
-	moves[PAWN] = b.Pieces.pawnsPseudoLegalMoves(b.State.currPlayer)
-	oppPlayerAttackSquares |= b.Pieces.pawnsCaptureMoves(oppPlayer)
+	// Get All pseudo-legal moves of opponent and combine them in one bitboard
+	for _, mvs := range b.PlayerPseudoLegalMoves(oppPlayer) {
+		oppPlayerAttackSquares |= mvs
+	}
 
 	// Set inCheck if King is in check
 	kingPosBitboard := b.Pieces.Positions[b.State.currPlayer][KING]
