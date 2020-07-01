@@ -4,6 +4,23 @@ import (
 	"regexp"
 )
 
+/******************** Definition Player ****************************/
+
+type Player byte
+
+const (
+	WHITE Player = 'W'
+	BLACK Player = 'B'
+)
+
+func (p Player) opponent() Player {
+	if p == WHITE {
+		return BLACK
+	} else {
+		return WHITE
+	}
+}
+
 /******************** Definition Piece ****************************/
 
 // Define Pieces

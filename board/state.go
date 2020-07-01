@@ -47,11 +47,3 @@ const (
 	CASTLE_QUEEN castleRights = 1
 	CASTLE_NONE  castleRights = 0
 )
-
-// Define Players
-type Player byte
-
-const (
-	WHITE Player = 'W'
-	BLACK Player = 'B'
-)

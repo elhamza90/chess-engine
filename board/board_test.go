@@ -16,26 +16,23 @@ func TestBoard_String(t *testing.T) {
 			},
 			epSquare: 0,
 		},
-		Pieces: piecePos{
-			Positions: map[Player]map[Piece]Bitboard{
-				WHITE: map[Piece]Bitboard{
-					'P': Bitboard(65280),
-					'R': Bitboard(129),
-					'N': Bitboard(66),
-					'B': Bitboard(36),
-					'K': Bitboard(16),
-					'Q': Bitboard(8),
-				},
-				BLACK: map[Piece]Bitboard{
-					'P': Bitboard(71776119061217280),
-					'R': Bitboard(9295429630892703744),
-					'N': Bitboard(4755801206503243776),
-					'B': Bitboard(2594073385365405696),
-					'K': Bitboard(1152921504606846976),
-					'Q': Bitboard(576460752303423488),
-				},
+		Pieces: PlayerPiecePositions{
+			WHITE: PiecePositions{
+				PAWN:   Bitboard(65280),
+				ROOK:   Bitboard(129),
+				KNIGHT: Bitboard(66),
+				BISHOP: Bitboard(36),
+				KING:   Bitboard(16),
+				QUEEN:  Bitboard(8),
 			},
-			Empty: 281474976645120,
+			BLACK: PiecePositions{
+				PAWN:   Bitboard(71776119061217280),
+				ROOK:   Bitboard(9295429630892703744),
+				KNIGHT: Bitboard(4755801206503243776),
+				BISHOP: Bitboard(2594073385365405696),
+				KING:   Bitboard(1152921504606846976),
+				QUEEN:  Bitboard(576460752303423488),
+			},
 		},
 	}
 	res := b.String(WHITE)
@@ -99,26 +96,23 @@ func TestFen_BoardFromFen(t *testing.T) {
 				},
 				epSquare: 0,
 			},
-			Pieces: piecePos{
-				Positions: map[Player]map[Piece]Bitboard{
-					WHITE: map[Piece]Bitboard{
-						'P': Bitboard(65280),
-						'R': Bitboard(129),
-						'N': Bitboard(66),
-						'B': Bitboard(36),
-						'K': Bitboard(16),
-						'Q': Bitboard(8),
-					},
-					BLACK: map[Piece]Bitboard{
-						'P': Bitboard(71776119061217280),
-						'R': Bitboard(9295429630892703744),
-						'N': Bitboard(4755801206503243776),
-						'B': Bitboard(2594073385365405696),
-						'K': Bitboard(1152921504606846976),
-						'Q': Bitboard(576460752303423488),
-					},
+			Pieces: PlayerPiecePositions{
+				WHITE: PiecePositions{
+					PAWN:   Bitboard(65280),
+					ROOK:   Bitboard(129),
+					KNIGHT: Bitboard(66),
+					BISHOP: Bitboard(36),
+					KING:   Bitboard(16),
+					QUEEN:  Bitboard(8),
 				},
-				Empty: 281474976645120,
+				BLACK: PiecePositions{
+					PAWN:   Bitboard(71776119061217280),
+					ROOK:   Bitboard(9295429630892703744),
+					KNIGHT: Bitboard(4755801206503243776),
+					BISHOP: Bitboard(2594073385365405696),
+					KING:   Bitboard(1152921504606846976),
+					QUEEN:  Bitboard(576460752303423488),
+				},
 			},
 		},
 		"r2q1bnr/pp1bkppp/2n5/3pp3/2Pp3P/1P3N2/PB1NPPP1/2RQKB1R b K c3 0 8": {
@@ -131,26 +125,23 @@ func TestFen_BoardFromFen(t *testing.T) {
 				},
 				epSquare: Bitboard(262144),
 			},
-			Pieces: piecePos{
-				Positions: map[Player]map[Piece]Bitboard{
-					WHITE: map[Piece]Bitboard{
-						'P': Bitboard(2214752512),
-						'R': Bitboard(132),
-						'N': Bitboard(2099200),
-						'B': Bitboard(544),
-						'K': Bitboard(16),
-						'Q': Bitboard(8),
-					},
-					BLACK: map[Piece]Bitboard{
-						'P': Bitboard(63894922926751744),
-						'R': Bitboard(9295429630892703744),
-						'N': Bitboard(4611690416473899008),
-						'B': Bitboard(2308094809027379200),
-						'K': Bitboard(4503599627370496),
-						'Q': Bitboard(576460752303423488),
-					},
+			Pieces: PlayerPiecePositions{
+				WHITE: PiecePositions{
+					PAWN:   Bitboard(2214752512),
+					ROOK:   Bitboard(132),
+					KNIGHT: Bitboard(2099200),
+					BISHOP: Bitboard(544),
+					KING:   Bitboard(16),
+					QUEEN:  Bitboard(8),
 				},
-				Empty: Bitboard(1586669940241171523),
+				BLACK: PiecePositions{
+					PAWN:   Bitboard(63894922926751744),
+					ROOK:   Bitboard(9295429630892703744),
+					KNIGHT: Bitboard(4611690416473899008),
+					BISHOP: Bitboard(2308094809027379200),
+					KING:   Bitboard(4503599627370496),
+					QUEEN:  Bitboard(576460752303423488),
+				},
 			},
 		},
 		"rnbqk1nr/pppp1ppp/8/4P3/1b6/8/PPP1PPPP/RNBQKBNR w KQkq - 1 3": {
@@ -163,26 +154,23 @@ func TestFen_BoardFromFen(t *testing.T) {
 				},
 				epSquare: 0,
 			},
-			Pieces: piecePos{
-				Positions: map[Player]map[Piece]Bitboard{
-					WHITE: map[Piece]Bitboard{
-						'P': Bitboard(68719539968),
-						'R': Bitboard(129),
-						'N': Bitboard(66),
-						'B': Bitboard(36),
-						'K': Bitboard(16),
-						'Q': Bitboard(8),
-					},
-					BLACK: map[Piece]Bitboard{
-						'P': Bitboard(67272519433846784),
-						'R': Bitboard(9295429630892703744),
-						'N': Bitboard(4755801206503243776),
-						'B': Bitboard(288230376185266176),
-						'K': Bitboard(1152921504606846976),
-						'Q': Bitboard(576460752303423488),
-					},
+			Pieces: PlayerPiecePositions{
+				WHITE: PiecePositions{
+					PAWN:   Bitboard(68719539968),
+					ROOK:   Bitboard(129),
+					KNIGHT: Bitboard(66),
+					BISHOP: Bitboard(36),
+					KING:   Bitboard(16),
+					QUEEN:  Bitboard(8),
 				},
-				Empty: Bitboard(2310628015064680448),
+				BLACK: PiecePositions{
+					PAWN:   Bitboard(67272519433846784),
+					ROOK:   Bitboard(9295429630892703744),
+					KNIGHT: Bitboard(4755801206503243776),
+					BISHOP: Bitboard(288230376185266176),
+					KING:   Bitboard(1152921504606846976),
+					QUEEN:  Bitboard(576460752303423488),
+				},
 			},
 		},
 	}
@@ -207,19 +195,19 @@ func TestFen_BoardFromFen(t *testing.T) {
 				t.Errorf("Error setting en passant square. Expecting %d, got %d", expected.State.epSquare, b.State.EpSquare())
 			}
 
-			if b.Pieces.Empty != expected.Pieces.Empty {
-				t.Errorf("Error in Empty squares. Expecting %b but got %b", expected.Pieces.Empty, b.Pieces.Empty)
+			if resEmpty, expectedEmpty := b.Pieces.Empty(), expected.Pieces.Empty(); resEmpty != expectedEmpty {
+				t.Errorf("Error in Empty squares. Expecting %b but got %b", expectedEmpty, resEmpty)
 			}
 
-			for p, expectedPos := range expected.Pieces.Positions[WHITE] {
-				resultPos := b.Pieces.Positions[WHITE][p]
+			for p, expectedPos := range expected.Pieces[WHITE] {
+				resultPos := b.Pieces[WHITE][p]
 				if expectedPos != resultPos {
 					t.Errorf("Error setting White Piece %c position. Expected %b but got %b", p, expectedPos, resultPos)
 				}
 			}
 
-			for p, expectedPos := range expected.Pieces.Positions[BLACK] {
-				resultPos := b.Pieces.Positions[BLACK][p]
+			for p, expectedPos := range expected.Pieces[BLACK] {
+				resultPos := b.Pieces[BLACK][p]
 				if expectedPos != resultPos {
 					t.Errorf("Error setting Black Piece %c position. Expected %b but got %b", p, expectedPos, resultPos)
 				}

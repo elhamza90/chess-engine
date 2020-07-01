@@ -8,7 +8,7 @@ import (
 )
 
 type Board struct {
-	Pieces piecePos
+	Pieces PlayerPiecePositions
 
 	State boardState
 }
@@ -30,6 +30,7 @@ func (b Board) String(ply Player) (res string) {
 	var bbIndex Square
 	var err error
 	var pc Piece
+	var emptyBitboard Bitboard = b.Pieces.Empty()
 	for _, r := range rows {
 		res += sep
 		res += fmt.Sprintf("%c ", r)
@@ -41,14 +42,14 @@ func (b Board) String(ply Player) (res string) {
 				return ""
 			}
 			//log.Printf("%c%c (%s) => %d", c, r, sq, bbIndex)
-			if b.Pieces.Empty.IsSet(bbIndex) {
+			if emptyBitboard.IsSet(bbIndex) {
 				res += fmt.Sprintf("|   ")
 			} else {
 				for _, pc = range []Piece{PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} {
-					if b.Pieces.Positions[WHITE][pc].IsSet(bbIndex) {
+					if b.Pieces[WHITE][pc].IsSet(bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(WHITE))
 						break
-					} else if b.Pieces.Positions[BLACK][pc].IsSet(bbIndex) {
+					} else if b.Pieces[BLACK][pc].IsSet(bbIndex) {
 						res += fmt.Sprintf("| %c ", pc.String(BLACK))
 						break
 					}
@@ -98,19 +99,15 @@ func (b *Board) FromFen(fen string) {
 	}
 
 	// Set Pieces locations in Bitboards
-	b.Pieces.Positions = make(map[Player]map[Piece]Bitboard)
-	b.Pieces.Positions[WHITE], b.Pieces.Positions[BLACK] = fenToBitboardPieces(parts[0])
-
-	// Calculate Empty Squares from pieces locations
-	occupied := b.PlayerPieces(WHITE) | b.PlayerPieces(BLACK)
-	b.Pieces.Empty = ^occupied
+	b.Pieces = make(PlayerPiecePositions)
+	b.Pieces[WHITE], b.Pieces[BLACK] = fenToBitboardPieces(parts[0])
 
 }
 
 // Color Pieces returns a Bitboard containing all pieces for one color
 func (b Board) PlayerPieces(ply Player) Bitboard {
 	var bb Bitboard = 0
-	for _, pos := range b.Pieces.Positions[ply] {
+	for _, pos := range b.Pieces[ply] {
 		bb += pos
 	}
 	return bb

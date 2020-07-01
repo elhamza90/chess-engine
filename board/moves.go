@@ -29,7 +29,7 @@ func (b Board) GenLegalMoves() (moves AttackMap) {
 	}
 
 	// Set inCheck if King is in check
-	kingPosBitboard := b.Pieces.Positions[b.State.currPlayer][KING]
+	kingPosBitboard := b.Pieces[b.State.currPlayer][KING]
 	var kingSquare Square
 	for sq := A1; sq < H8; sq++ {
 		if kingPosBitboard.IsSet(sq) {
