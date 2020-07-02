@@ -6,6 +6,7 @@ type PiecePositions map[Piece]Bitboard
 
 type PlayerPiecePositions map[Player]PiecePositions
 
+// All combines all bitboards of all pieces into a single bitboard
 func (pp PiecePositions) All() (res Bitboard) {
 	for _, pos := range pp {
 		res |= pos
@@ -13,6 +14,7 @@ func (pp PiecePositions) All() (res Bitboard) {
 	return res
 }
 
+// Empty return a bitboard representing empty squares in the board
 func (ppp PlayerPiecePositions) Empty() (res Bitboard) {
 	for _, piecePositions := range ppp {
 		res |= piecePositions.All()
