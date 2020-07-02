@@ -122,7 +122,7 @@ func Test_PiecePos_kingPseudoLegalMoves(t *testing.T) {
 				},
 			},
 			player:   WHITE,
-			expected: Bitboard(18446744073574809599), // D5,D3,C4,C3,C5,E4,E3,E5: 2^35 + 2^34 + 2^36 + 2^26 + 2^28 + 2^18 + 2^20
+			expected: Bitboard(120595939328), // D5,D3,C4,C3,C5,E4,E3,E5: 2^35 + 2^34 + 2^36 + 2^26 + 2^28 + 2^18 + 2^20
 		},
 		{
 			name: "W-King Blocked by friendly bishop on the left square",
