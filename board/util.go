@@ -1,6 +1,8 @@
 package board
 
 import (
+	"errors"
+	"fmt"
 	"regexp"
 )
 
@@ -182,6 +184,43 @@ func (sq *Square) String() string {
 		H1: "h1", H2: "h2", H3: "H3", H4: "H4", H5: "H5", H6: "H6", H7: "H7", H8: "H8",
 	}
 	return m[*sq]
+}
+
+// Up returns the square in the upper rank of the calling square
+func (sq Square) Up() (Square, error) {
+	if sq > H7 {
+		return sq, errors.New(fmt.Sprintf("There are no upper squares for %s", sq.String()))
+	} else {
+		return sq + 8, nil
+	}
+}
+
+// Up returns the square in the lower rank of the calling square
+func (sq Square) Down() (Square, error) {
+	if sq < A2 {
+		return sq, errors.New(fmt.Sprintf("There are no lower squares for %s", sq.String()))
+	} else {
+		return sq - 8, nil
+	}
+}
+
+// Up returns the square in the left of the calling square
+func (sq Square) Left() (Square, error) {
+	if sq%8 == 0 {
+		return sq, errors.New(fmt.Sprintf("There are no left squares for %s", sq.String()))
+	} else {
+		return sq - 1, nil
+	}
+}
+
+// Up returns the square in the right of the calling square
+func (sq Square) Right() (res Square, err error) {
+	res = sq + 1
+	if res%8 == 0 {
+		return sq, errors.New(fmt.Sprintf("There are no right squares for %s", sq.String()))
+	} else {
+		return res, nil
+	}
 }
 
 /******************** Definition Bitboard ****************************/
