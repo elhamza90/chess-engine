@@ -289,7 +289,7 @@ func (bb *Bitboard) Set(sq Square) {
 	*bb |= Bitboard(1) << sq
 }
 
-// FromString constructs a Bitboard from a String of a binary number
+// FromSquares constructs a Bitboard from multiple squares
 func (bb *Bitboard) FromSquares(squares []Square) {
 	*bb = Bitboard(0)
 	for _, sq := range squares {
