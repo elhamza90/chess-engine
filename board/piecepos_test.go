@@ -173,6 +173,126 @@ func Test_PiecePos_kingPseudoLegalMoves(t *testing.T) {
 			expected: Bitboard(120328028160), // D5,D3,C4,C3,C5,E3,E5: 2^35 + 2^34 + 2^36 + 2^26 + 2^19 + 2^18 + 2^20
 		},
 		{
+			name: "W-King blocked by friendly bishop in upper-left square",
+			fen:  "8/8/8/2B5/3K4/8/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(17179869184), // 2^34 (C5)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(134217728), // 2**27 (D4)
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(103416594432), // D5,D3,C4,C3,E4,E3,E5: 2^35 + 2^36 + 2^26 + 2^28 + 2^19 + 2^18 + 2^20
+		},
+		{
+			name: "W-King blocked by friendly bishop in lower-left square",
+			fen:  "8/8/8/8/3K4/2B5/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(262144), // 2^18 (C3)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(134217728), // 2**27 (D4)
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(120596201472), // D5,D3,C4,C5,E4,E3,E5: 2^35 + 2^34 + 2^36 + 2^26 + 2^28 + 2^19 + 2^20
+		},
+		{
+			name: "W-King blocked by friendly bishop in upper-right square",
+			fen:  "8/8/8/4B3/3K4/8/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(68719476736), // 2^36 (E5)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(134217728), // 2**27 (D4)
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(51876986880), // D5,D3,C4,C3,C5,E4,E3: 2^35 + 2^34 + 2^26 + 2^28 + 2^19 + 2^18 + 2^20
+		},
+		{
+			name: "W-King blocked by friendly bishop in lower-right square",
+			fen:  "8/8/8/8/3K4/4B3/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(1048576), // 2^20(E3)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(134217728), // 2**27 (D4)
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(120595415040), // D5,D3,C4,C3,C5,E4,E5: 2^35 + 2^34 + 2^36 + 2^26 + 2^28 + 2^19 + 2^18
+		},
+		{
+			name: "W-King blocked by friendly pieces from all surrounding squares",
+			fen:  "8/8/8/2PPP3/2NKN3/2BBQ3/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(120259084288), // 2^34 + 2^35 + 2^36 (C5, D5, E5)
+					KNIGHT: Bitboard(335544320),    // 2^26 + 2^28 (C4, E4)
+					BISHOP: Bitboard(786432),       // 2^18 + 2^19 (C3, D3)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(1048576),   // 2^20 (E3)
+					KING:   Bitboard(134217728), // 2**27 (D4)
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(0), // king can't move
+		},
+		{
 			name: "W-King alone in lower-left corner (A1)",
 			fen:  "8/8/8/8/8/8/8/K7 w - - 0 1",
 			position: PlayerPiecePositions{
