@@ -1,7 +1,5 @@
 package board
 
-import "log"
-
 /************************************************************/
 
 type PiecePositions map[Piece]Bitboard
@@ -32,10 +30,8 @@ func (ppp PlayerPiecePositions) Empty() (res Bitboard) {
 func (ppp PlayerPiecePositions) kingPseudoLegalMoves(ply Player) (res Bitboard) {
 	// WIP
 	playerKing := ppp[ply][KING]
-	log.Printf("king: %b", playerKing)
 	playerPieces := ppp[ply].All() ^ playerKing // excluding king
-	log.Printf("player pieces: %b", playerPieces)
-	kingMoveRules := map[Square]Bitboard{
+	/*kingMoveRules := map[Square]Bitboard{
 		A1: Bitboard(770),
 		A2: Bitboard(0),
 		A3: Bitboard(0),
@@ -100,14 +96,39 @@ func (ppp PlayerPiecePositions) kingPseudoLegalMoves(ply Player) (res Bitboard) 
 		H6: Bitboard(0),
 		H7: Bitboard(0),
 		H8: Bitboard(4665729213955833856),
-	}
+	}*/
+	squares := make([]Square, 0, 8)
 	for sq := A1; sq <= H8; sq++ {
 		if playerKing.IsSet(sq) {
-			log.Print(sq.String())
-			res = kingMoveRules[sq]
+			//res = kingMoveRules[sq]
+			if left, err := sq.Left(); err == nil {
+				squares = append(squares, left)
+			}
+			if right, err := sq.Right(); err == nil {
+				squares = append(squares, right)
+			}
+			if up, err := sq.Up(); err == nil {
+				squares = append(squares, up)
+			}
+			if down, err := sq.Down(); err == nil {
+				squares = append(squares, down)
+			}
+			if downLeft, err := sq.DownLeft(); err == nil {
+				squares = append(squares, downLeft)
+			}
+			if downRight, err := sq.DownRight(); err == nil {
+				squares = append(squares, downRight)
+			}
+			if upLeft, err := sq.UpperLeft(); err == nil {
+				squares = append(squares, upLeft)
+			}
+			if upRight, err := sq.UpperRight(); err == nil {
+				squares = append(squares, upRight)
+			}
 			break
 		}
 	}
+	res.FromSquares(squares)
 	res ^= playerPieces
 	return res
 }
