@@ -1,5 +1,7 @@
 package board
 
+import "log"
+
 /************************************************************/
 
 type PiecePositions map[Piece]Bitboard
@@ -29,9 +31,84 @@ func (ppp PlayerPiecePositions) Empty() (res Bitboard) {
 // Pseudo-Legal moves don't consider pins and attacks on the King.
 func (ppp PlayerPiecePositions) kingPseudoLegalMoves(ply Player) (res Bitboard) {
 	// WIP
-	// separate friendly and opponent pieces
-	//var opponent Player = ply.opponent()
-
+	playerKing := ppp[ply][KING]
+	log.Printf("king: %b", playerKing)
+	playerPieces := ppp[ply].All() ^ playerKing // excluding king
+	log.Printf("player pieces: %b", playerPieces)
+	kingMoveRules := map[Square]Bitboard{
+		A1: Bitboard(770),
+		A2: Bitboard(0),
+		A3: Bitboard(0),
+		A4: Bitboard(0),
+		A5: Bitboard(0),
+		A6: Bitboard(0),
+		A7: Bitboard(0),
+		A8: Bitboard(144959613005987840),
+		B1: Bitboard(0),
+		B2: Bitboard(0),
+		B3: Bitboard(0),
+		B4: Bitboard(0),
+		B5: Bitboard(0),
+		B6: Bitboard(0),
+		B7: Bitboard(0),
+		B8: Bitboard(0),
+		C1: Bitboard(0),
+		C2: Bitboard(0),
+		C3: Bitboard(0),
+		C4: Bitboard(0),
+		C5: Bitboard(0),
+		C6: Bitboard(0),
+		C7: Bitboard(0),
+		C8: Bitboard(0),
+		D1: Bitboard(0),
+		D2: Bitboard(0),
+		D3: Bitboard(0),
+		D4: Bitboard(120596463616),
+		D5: Bitboard(0),
+		D6: Bitboard(0),
+		D7: Bitboard(0),
+		D8: Bitboard(0),
+		E1: Bitboard(0),
+		E2: Bitboard(0),
+		E3: Bitboard(0),
+		E4: Bitboard(0),
+		E5: Bitboard(0),
+		E6: Bitboard(0),
+		E7: Bitboard(0),
+		E8: Bitboard(0),
+		F1: Bitboard(0),
+		F2: Bitboard(0),
+		F3: Bitboard(0),
+		F4: Bitboard(0),
+		F5: Bitboard(0),
+		F6: Bitboard(0),
+		F7: Bitboard(0),
+		F8: Bitboard(0),
+		G1: Bitboard(0),
+		G2: Bitboard(0),
+		G3: Bitboard(0),
+		G4: Bitboard(0),
+		G5: Bitboard(0),
+		G6: Bitboard(0),
+		G7: Bitboard(0),
+		G8: Bitboard(0),
+		H1: Bitboard(49216),
+		H2: Bitboard(0),
+		H3: Bitboard(0),
+		H4: Bitboard(0),
+		H5: Bitboard(0),
+		H6: Bitboard(0),
+		H7: Bitboard(0),
+		H8: Bitboard(4665729213955833856),
+	}
+	for sq := A1; sq <= H8; sq++ {
+		if playerKing.IsSet(sq) {
+			log.Print(sq.String())
+			res = kingMoveRules[sq]
+			break
+		}
+	}
+	res ^= playerPieces
 	return res
 }
 
