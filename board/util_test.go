@@ -152,6 +152,103 @@ func TestUtil_Square_Right(t *testing.T) {
 		}
 	}
 }
+
+func TestUtil_Square_UpperRight(t *testing.T) {
+	testsNoErrors := map[Square]Square{
+		D4: E5,
+		G7: H8,
+		F2: G3,
+		B3: C4,
+	}
+	testsError := []Square{H1, H2, H3, H4, H5, H6, H7, H8, G8, F8, E8, D8, C8, B8, A8}
+	var res Square
+	var err error
+	for sq, expected := range testsNoErrors {
+		if res, err = sq.UpperRight(); err != nil {
+			t.Errorf("Error getting Upper-Right square of %s. Expected %s but got Error: %s", sq.String(), expected.String(), err)
+		} else if res != expected {
+			t.Errorf("Error getting Upper-Right square of %s. Expected %s but got %s", sq.String(), expected.String(), res.String())
+		}
+	}
+	for _, sq := range testsError {
+		if res, err = sq.UpperRight(); err == nil {
+			t.Errorf("Error getting Upper-Right square of %s. Expected Error but got %s", sq.String(), res.String())
+		}
+	}
+}
+
+func TestUtil_Square_DownRight(t *testing.T) {
+	testsNoErrors := map[Square]Square{
+		D4: E3,
+		G7: H6,
+		F2: G1,
+		B3: C2,
+	}
+	testsError := []Square{H1, H2, H3, H4, H5, H6, H7, H8, A1, B1, C1, D1, E1, F1, G1}
+	var res Square
+	var err error
+	for sq, expected := range testsNoErrors {
+		if res, err = sq.DownRight(); err != nil {
+			t.Errorf("Error getting Down-Right square of %s. Expected %s but got Error: %s", sq.String(), expected.String(), err)
+		} else if res != expected {
+			t.Errorf("Error getting Down-Right square of %s. Expected %s but got %s", sq.String(), expected.String(), res.String())
+		}
+	}
+	for _, sq := range testsError {
+		if res, err = sq.DownRight(); err == nil {
+			t.Errorf("Error getting Down-Right square of %s. Expected Error but got %s", sq.String(), res.String())
+		}
+	}
+}
+
+func TestUtil_Square_DownLeft(t *testing.T) {
+	testsNoErrors := map[Square]Square{
+		D4: C3,
+		G7: F6,
+		F2: E1,
+		B3: A2,
+	}
+	testsError := []Square{A1, A2, A3, A4, A5, A6, A7, A8, B1, C1, D1, E1, F1, G1}
+	var res Square
+	var err error
+	for sq, expected := range testsNoErrors {
+		if res, err = sq.DownLeft(); err != nil {
+			t.Errorf("Error getting Down-Left square of %s. Expected %s but got Error: %s", sq.String(), expected.String(), err)
+		} else if res != expected {
+			t.Errorf("Error getting Down-Left square of %s. Expected %s but got %s", sq.String(), expected.String(), res.String())
+		}
+	}
+	for _, sq := range testsError {
+		if res, err = sq.DownLeft(); err == nil {
+			t.Errorf("Error getting Down-Left square of %s. Expected Error but got %s", sq.String(), res.String())
+		}
+	}
+}
+
+func TestUtil_Square_UpperLeft(t *testing.T) {
+	testsNoErrors := map[Square]Square{
+		D4: C5,
+		G7: F8,
+		F2: E3,
+		B3: A4,
+	}
+	testsError := []Square{H8, G8, F8, E8, D8, C8, B8, A8, A1, A2, A3, A4, A5, A6, A7}
+	var res Square
+	var err error
+	for sq, expected := range testsNoErrors {
+		if res, err = sq.UpperLeft(); err != nil {
+			t.Errorf("Error getting Upper-Left square of %s. Expected %s but got Error: %s", sq.String(), expected.String(), err)
+		} else if res != expected {
+			t.Errorf("Error getting Upper-Left square of %s. Expected %s but got %s", sq.String(), expected.String(), res.String())
+		}
+	}
+	for _, sq := range testsError {
+		if res, err = sq.UpperLeft(); err == nil {
+			t.Errorf("Error getting Upper-Left square of %s. Expected Error but got %s", sq.String(), res.String())
+		}
+	}
+}
+
 func TestUtil_Bitboard_IsSet(t *testing.T) {
 	bin := "1010000010000101011001001010000000000000000001001000011100010000"
 	// TODO: make the conversion programatically. Here I did it offline and got the following decimal

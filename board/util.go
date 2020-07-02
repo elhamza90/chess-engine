@@ -223,6 +223,58 @@ func (sq Square) Right() (res Square, err error) {
 	}
 }
 
+// UpperRight returns the square in the upper-right side of the calling square
+func (sq Square) UpperRight() (res Square, err error) {
+	if res, err = sq.Up(); err != nil {
+		return sq, err
+	} else {
+		if res, err = res.Right(); err != nil {
+			return sq, err
+		} else {
+			return res, nil
+		}
+	}
+}
+
+// DownRight returns the square in the lower-right side of the calling square
+func (sq Square) DownRight() (res Square, err error) {
+	if res, err = sq.Down(); err != nil {
+		return sq, err
+	} else {
+		if res, err = res.Right(); err != nil {
+			return sq, err
+		} else {
+			return res, nil
+		}
+	}
+}
+
+// UpperRight returns the square in the upper-left side of the calling square
+func (sq Square) UpperLeft() (res Square, err error) {
+	if res, err = sq.Up(); err != nil {
+		return sq, err
+	} else {
+		if res, err = res.Left(); err != nil {
+			return sq, err
+		} else {
+			return res, nil
+		}
+	}
+}
+
+// DownLeft returns the square in the lower-left side of the calling square
+func (sq Square) DownLeft() (res Square, err error) {
+	if res, err = sq.Down(); err != nil {
+		return sq, err
+	} else {
+		if res, err = res.Left(); err != nil {
+			return sq, err
+		} else {
+			return res, nil
+		}
+	}
+}
+
 /******************** Definition Bitboard ****************************/
 
 type Bitboard uint64
