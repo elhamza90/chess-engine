@@ -315,6 +315,7 @@ func TestUtil_Bitboard_Set(t *testing.T) {
 		A8: Bitboard(uint64(math.Pow(2, 56)) + uint64(16)),
 		H1: Bitboard(uint64(math.Pow(2, 7)) + uint64(16)),
 	}
+
 	for sq, expected := range tests {
 		bitboard := Bitboard(16) // Initial Bitboard is 10000
 		bitboard.Set(sq)
@@ -339,6 +340,30 @@ func TestUtil_Bitboard_FromSquares(t *testing.T) {
 		res.FromSquares(squares)
 		if res != expected {
 			t.Errorf("Error constructing Bitboard from Squares %v. Expected %d but got %d", squares, expected, res)
+		}
+	}
+}
+
+func TestUtil_Bitboard_Squares(t *testing.T) {
+	tests := map[Bitboard][]Square{
+		Bitboard(1):              {A1},
+		Bitboard(3):              {A1, B1},
+		Bitboard(17592320262144): {D4, E6},
+		Bitboard(120259084288):   {C5, D5, E5},
+	}
+
+	var res []Square
+	sumSquares := func(sqs []Square) int {
+		s := 0
+		for _, sq := range sqs {
+			s += int(sq)
+		}
+		return s
+	}
+	for bb, expected := range tests {
+		res = bb.Squares()
+		if sumSquares(res) != sumSquares(expected) {
+			t.Errorf("Error converting Bitboard to squares for %b. Expected %v but got %v", bb, expected, res)
 		}
 	}
 }

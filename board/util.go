@@ -337,3 +337,16 @@ func (bb *Bitboard) FromSquares(squares []Square) {
 		bb.Set(sq)
 	}
 }
+
+// Squares returns the squares containing 1 in the bitboard
+func (bb Bitboard) Squares() (res []Square) {
+	binStr := fmt.Sprintf("%b", bb)
+	i := len(binStr) - 1
+	for _, b := range binStr {
+		if b == '1' {
+			res = append(res, Square(i))
+		}
+		i -= 1
+	}
+	return res
+}
