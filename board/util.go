@@ -275,6 +275,47 @@ func (sq Square) DownLeft() (res Square, err error) {
 	}
 }
 
+// KnightJumps returns all squares a knight can jump to from the calling square.
+func (sq Square) KnightJumps() (res []Square) {
+	if left, err := sq.Left(); err == nil {
+		if upLeft, err := left.UpperLeft(); err == nil {
+			res = append(res, upLeft)
+		}
+		if dwnLeft, err := left.DownLeft(); err == nil {
+			res = append(res, dwnLeft)
+		}
+		if up, err := left.Up(); err == nil {
+			if twoUp, err := up.Up(); err == nil {
+				res = append(res, twoUp)
+			}
+		}
+		if dwn, err := left.Down(); err == nil {
+			if twoDwn, err := dwn.Down(); err == nil {
+				res = append(res, twoDwn)
+			}
+		}
+	}
+	if right, err := sq.Right(); err == nil {
+		if upRight, err := right.UpperRight(); err == nil {
+			res = append(res, upRight)
+		}
+		if dwnRight, err := right.DownRight(); err == nil {
+			res = append(res, dwnRight)
+		}
+		if up, err := right.Up(); err == nil {
+			if twoUp, err := up.Up(); err == nil {
+				res = append(res, twoUp)
+			}
+		}
+		if dwn, err := right.Down(); err == nil {
+			if twoDwn, err := dwn.Down(); err == nil {
+				res = append(res, twoDwn)
+			}
+		}
+	}
+	return res
+}
+
 /******************** Definition Bitboard ****************************/
 
 type Bitboard uint64

@@ -249,6 +249,36 @@ func TestUtil_Square_UpperLeft(t *testing.T) {
 	}
 }
 
+func TestUtil_Square_KnightJumps(t *testing.T) {
+	tests := map[Square][]Square{
+		D4: []Square{C6, B5, C2, B3, E2, F3, F5, E6},
+		G7: []Square{H5, E8, F5, E6},
+		F2: []Square{H1, H3, G4, E4, D3, D1},
+		B3: []Square{A1, C1, D2, C5, D4, A5},
+		A1: []Square{B3, C2},
+		H1: []Square{G3, F2},
+	}
+	var res []Square
+	sumSquares := func(sqs []Square) int {
+		s := 0
+		for _, sq := range sqs {
+			s += int(sq)
+		}
+		return s
+	}
+	for sq, expected := range tests {
+		t.Run(sq.String(), func(t *testing.T) {
+			res = sq.KnightJumps()
+			resSum := sumSquares(res)
+			expectedSum := sumSquares(expected)
+			if resSum != expectedSum {
+				t.Errorf("Error getting Knight Jump square of %s. Expected %v but got %v", sq.String(), expected, res)
+			}
+		})
+
+	}
+}
+
 func TestUtil_Bitboard_IsSet(t *testing.T) {
 	bin := "1010000010000101011001001010000000000000000001001000011100010000"
 	// TODO: make the conversion programatically. Here I did it offline and got the following decimal
