@@ -432,7 +432,7 @@ func Test_PiecePos_knightsPseudoLegalMoves(t *testing.T) {
 		expected Bitboard             // Expected bitboard representing pseudo-legal moves for the king
 	}{
 		{
-			name: "W-Knight alone in center",
+			name: "W-Knight (D4) alone",
 			fen:  "8/8/8/8/3N4/8/8/8 w - - 0 1",
 			position: PlayerPiecePositions{
 				WHITE: {
@@ -455,11 +455,107 @@ func Test_PiecePos_knightsPseudoLegalMoves(t *testing.T) {
 			player:   WHITE,
 			expected: Bitboard(22136263676928), // 2^12 + 2^44 + 2^10 + 2^42 + 2^17 + 2^33 + 2^21 + 2^37 E2,E6,C2,C6,B3,B5,F3,F5
 		},
+		{
+			name: "W-Knight (D4) blocked by friendly bishop (E6)",
+			fen:  "8/8/4B3/8/3N4/8/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(134217728),      // 2**27 (D4)
+					BISHOP: Bitboard(17592186044416), // 2^44 (E6)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(4544077632512), // 2^12  + 2^10 + 2^42 + 2^17 + 2^33 + 2^21 + 2^37 E2,C2,C6,B3,B5,F3,F5
+		},
+		{
+			name: "W-Knight (D4) blocked by friendly bishop (B5)",
+			fen:  "8/8/8/1B6/3N4/8/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(134217728),  // 2**27 (D4)
+					BISHOP: Bitboard(8589934592), // 2^33 (B5)
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(22127673742336), // 2^12 + 2^44 + 2^10 + 2^42 + 2^17  + 2^21 + 2^37 E2,E6,C2,C6,B3,F3,F5
+		},
+		{
+			name: "W-Knight (D4) surrounded by friendly pieces(E2,E6,C2,C6,B3,B5,F3,F5)",
+			fen:  "8/8/2B1P3/1P3P2/3N4/1K3P2/2R1R3/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(17738217029632), // 2^33+2^44+2^37+2^21 (B5, E6, F5, F3)
+					KNIGHT: Bitboard(134217728),      // 2**27 (D4)
+					BISHOP: Bitboard(4398046511104),  // 2^42 (C6)
+					ROOK:   Bitboard(5120),           // 2^10 + 2^12 (C2, E2)
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(131072), // 2^17 (B3)
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(0),
+		},
+		{
+			name: "W-Knight (D4) surrounded by enemy pieces(E2,E6,C2,C6,B3,B5,F3,F5)",
+			fen:  "8/8/2p1p3/1p3p2/3N4/1b3r2/2b1r3/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(134217728), // 2**27 (D4)
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+				BLACK: {
+					PAWN:   Bitboard(22136261443584), // 2^33 + 2^42 + 2^44+2^37 (B5, C6, E6, F5)
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(132096),  // 2^17 + 2^10 (B3, C2)
+					ROOK:   Bitboard(2101248), // 2^12 + 2^21 (E2, F3)
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(22136263676928), // 2^12 + 2^44 + 2^10 + 2^42 + 2^17 + 2^33 + 2^21 + 2^37 E2,E6,C2,C6,B3,B5,F3,F5
+		},
 	}
 	for _, test := range tests {
 		res := test.position.knightsPseudoLegalMoves(test.player)
 		if res != test.expected {
-			t.Errorf("Error in generating pseudo-legal moves for Knight (%s).\n  Expected %b but got %b \n(in position %s).", string(test.name), test.expected, res, test.fen)
+			t.Errorf("Error in generating pseudo-legal moves for (%s).\n  Expected %v but got %v \n(in position %s).", string(test.name), test.expected.Squares(), res.Squares(), test.fen)
 		}
 	}
 
