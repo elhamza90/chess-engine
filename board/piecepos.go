@@ -134,10 +134,23 @@ func (ppp PlayerPiecePositions) kingPseudoLegalMoves(ply Player) (res Bitboard) 
 }
 
 // knightsPseudoLegalMoves returns a bitboard containing all possible
-// moves for the King considering current/opponent pieces positions.
+// moves for the Knights of a player considering current/opponent player pieces positions.
 // Pseudo-Legal moves don't consider pins and attacks on the King.
 func (ppp PlayerPiecePositions) knightsPseudoLegalMoves(ply Player) (res Bitboard) {
-	// TODO
+	// WIP
+	playerKnights := ppp[ply][KNIGHT]
+	playerPieces := ppp[ply].All() ^ playerKnights
+
+	squares := make([]Square, 0, 8)
+	for sq := A1; sq <= H8; sq++ {
+		if playerKnights.IsSet(sq) {
+			// find squares the knight can jump to
+			knightJumps := sq.KnightJumps()
+			squares = append(squares, knightJumps...)
+		}
+	}
+	res.FromSquares(squares)
+	res ^= playerPieces
 	return res
 }
 
