@@ -422,3 +422,45 @@ func Test_PiecePos_kingPseudoLegalMoves(t *testing.T) {
 	}
 
 }
+
+func Test_PiecePos_knightsPseudoLegalMoves(t *testing.T) {
+	tests := []struct {
+		name     string               // Name of the test
+		fen      string               // Fen representation of the position to be tested
+		position PlayerPiecePositions // Test Position of the pieces on the board
+		player   Player               // Which King is concerned (white / black)
+		expected Bitboard             // Expected bitboard representing pseudo-legal moves for the king
+	}{
+		{
+			name: "W-Knight alone in center",
+			fen:  "8/8/8/8/3N4/8/8/8 w - - 0 1",
+			position: PlayerPiecePositions{
+				WHITE: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(134217728), // 2**27 (D4)
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+				BLACK: {
+					PAWN:   Bitboard(0),
+					KNIGHT: Bitboard(0),
+					BISHOP: Bitboard(0),
+					ROOK:   Bitboard(0),
+					QUEEN:  Bitboard(0),
+					KING:   Bitboard(0),
+				},
+			},
+			player:   WHITE,
+			expected: Bitboard(22136263676928), // 2^12 + 2^44 + 2^10 + 2^42 + 2^17 + 2^33 + 2^21 + 2^37 E2,E6,C2,C6,B3,B5,F3,F5
+		},
+	}
+	for _, test := range tests {
+		res := test.position.knightsPseudoLegalMoves(test.player)
+		if res != test.expected {
+			t.Errorf("Error in generating pseudo-legal moves for Knight (%s).\n  Expected %b but got %b \n(in position %s).", string(test.name), test.expected, res, test.fen)
+		}
+	}
+
+}
